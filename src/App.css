@@ -1,0 +1,19 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+body {
+  min-width: 1200px;
+}
+.el-input {
+  width: 70%;
+}
+.dialog-footer {
+  margin-top: 20px;
+}
+.el-dialog__header {
+  margin-bottom: 20px;
+}
+.el-dialog--tiny {
+  min-width: 50%;
+}
