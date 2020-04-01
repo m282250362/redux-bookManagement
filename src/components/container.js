@@ -1,14 +1,7 @@
 import React from "react";
 import axios from "axios";
-import {
-  Button,
-  Dialog,
-  Table,
-  MessageBox,
-  Message,
-  Form,
-  Input
-} from "element-react";
+import { Button, Table, MessageBox, Message } from "element-react";
+import EditDialog from "./editDialog";
 import "element-theme-default";
 // 主容器
 class Container extends React.Component {
@@ -27,7 +20,7 @@ class Container extends React.Component {
   componentDidMount() {
     // 从books.json文件中获取书籍的数据
     axios
-      .get("http://localhost:3001/books.json")
+      .get("http://localhost:3000/books.json")
       .then(res => {
         this.setState({
           data: res.data.data
@@ -37,12 +30,14 @@ class Container extends React.Component {
         console.log(err);
       });
   }
+  // 显示编辑对话框
   showEditDialog(id) {
     this.setState({
       editDialogVisible: true,
       id: id
     });
   }
+  // 显示删除消息弹框
   showDelDialog(id) {
     //
     const delId = this.state.data.findIndex(v => {
@@ -55,9 +50,13 @@ class Container extends React.Component {
       type: "warning"
     })
       .then(() => {
-        this.setState = {
+        this.setState(prevState => {
+          delete prevState.data;
+          return prevState;
+        });
+        this.setState({
           data: arr
-        };
+        });
         console.log(this.state.data);
 
         Message({
@@ -72,17 +71,33 @@ class Container extends React.Component {
         });
       });
   }
+  // 取消编辑操作
   handleEditCancel() {
     this.setState({
       editDialogVisible: false,
       id: ""
     });
   }
-  handleEditConfirm() {
-    this.setState({
-      editDialogVisible: false,
-      id: ""
+  // 修改表单确认操作
+  handleEditConfirm(form) {
+    const arr = this.state.data;
+    const index = this.state.data.findIndex(v => {
+      return v.id === form.id;
     });
+    arr[index] = form;
+    // 通过将组件数据清空,然后再赋值的操作实现页面重新渲染
+    this.setState(
+      {
+        data: []
+      },
+      () => {
+        this.setState({
+          data: arr,
+          editDialogVisible: false,
+          id: ""
+        });
+      }
+    );
   }
   render() {
     return (
@@ -145,7 +160,7 @@ function TableCom(props) {
     }
   ];
   return (
-    <>
+    <div>
       <Table
         style={{ width: "100%" }}
         columns={columns}
@@ -159,53 +174,8 @@ function TableCom(props) {
         data={props.data}
         editId={props.editId}
       />
-    </>
-  );
-}
-function EditDialog(props) {
-  let form = {
-    id: props.editId,
-    name: "",
-    author: "",
-    pubDate: ""
-  };
-  return (
-    <div>
-      <Dialog
-        title="编辑书籍"
-        modal={form}
-        size="tiny"
-        visible={props.dialogVisible}
-        onCancel={props.handleCancel}
-        lockScroll={false}
-      >
-        <Dialog.Body>
-          <Form>
-            <Form.Item label="编号">
-              <Input disabled value={form.id}></Input>
-            </Form.Item>
-            <Form.Item label="书名">
-              <Input value={form.name} onChange={handleChange}></Input>
-            </Form.Item>
-            <Form.Item label="作者">
-              <Input value={form.author}></Input>
-            </Form.Item>
-            <Form.Item label="出版日期">
-              <Input value={form.pubDate}></Input>
-            </Form.Item>
-          </Form>
-        </Dialog.Body>
-        <Dialog.Footer className="dialog-footer">
-          <Button onClick={props.handleCancel}>取消</Button>
-          <Button
-            type="primary"
-            onClick={props.handleEditConfirm.bind(this, props.editId)}
-          >
-            确定
-          </Button>
-        </Dialog.Footer>
-      </Dialog>
     </div>
   );
 }
+
 export default Container;
