@@ -62,6 +62,7 @@ function TableCom(props) {
         handleEditConfirm={props.handleEditConfirm}
         onFormChange={props.handleFormChange}
         form={props.form}
+        handleReset={props.handleReset}
       />
     </div>
   );

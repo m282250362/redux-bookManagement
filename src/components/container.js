@@ -10,12 +10,7 @@ class Container extends React.Component {
     this.state = {
       data: [],
       editDialogVisible: false,
-      form: {
-        id: "",
-        name: "",
-        author: "",
-        pubDate: ""
-      },
+      form: {},
       index: -1
     };
     this.showEditDialog = this.showEditDialog.bind(this);
@@ -23,6 +18,7 @@ class Container extends React.Component {
     this.handleEditCancel = this.handleEditCancel.bind(this);
     this.handleEditConfirm = this.handleEditConfirm.bind(this);
     this.handleFormChange = this.handleFormChange.bind(this);
+    this.handleReset = this.handleReset.bind(this);
   }
   componentDidMount() {
     // 从books.json文件中获取书籍的数据
@@ -37,18 +33,7 @@ class Container extends React.Component {
         console.log(err);
       });
   }
-  componentWillReceiveProps() {
-    console.log(this.state.form);
-    console.log(this.state.index);
 
-    if (this.state.index !== -1) {
-      const obj = this.state.data[this.state.index];
-      this.setState({
-        form: obj
-      });
-    }
-    // return true;
-  }
   // 显示编辑对话框
   showEditDialog(id) {
     const index = this.state.data.findIndex(v => {
@@ -57,7 +42,7 @@ class Container extends React.Component {
     this.setState({
       editDialogVisible: true,
       index: index,
-      form: this.state.data[index]
+      form: { ...this.state.data[index] }
     });
   }
   // 显示删除消息弹框
@@ -96,20 +81,37 @@ class Container extends React.Component {
     });
   }
   handleFormChange(key, value) {
-    console.log(key, value);
-
-    const formObj = this.state.form;
-    formObj[key] = value;
+    const form = this.state.form;
+    form[key] = value;
+    this.setState({
+      form: form
+    });
+  }
+  // 修改表单确认操作
+  handleEditConfirm(flag) {
+    if (flag) {
+      const index = this.state.data.findIndex(v => {
+        return v.id === this.state.form.id;
+      });
+      const arr = this.state.data;
+      arr[index] = this.state.form;
+      this.setState({
+        data: [...arr],
+        editDialogVisible: false
+      });
+    } else {
+      return false;
+    }
+  }
+  handleReset() {
+    let formObj = this.state.form;
+    formObj.name = "";
+    formObj.author = "";
+    formObj.pubDate = "";
     this.setState({
       form: formObj
     });
   }
-  // 修改表单确认操作
-  handleEditConfirm(value, flag) {
-    // console.log(value);
-    // console.log(flag);
-  }
-
   render() {
     return (
       <TableCom
@@ -119,8 +121,9 @@ class Container extends React.Component {
         showDelDialog={this.showDelDialog}
         handleEditCancel={this.handleEditCancel}
         handleEditConfirm={this.handleEditConfirm}
-        handleFormChange={this.handleEditConfirm}
+        handleFormChange={this.handleFormChange}
         form={this.state.form}
+        handleReset={this.handleReset}
       />
     );
   }
