@@ -13,14 +13,8 @@ class Container extends React.Component {
       form: {},
       index: -1
     };
-    this.showEditDialog = this.showEditDialog.bind(this);
-    this.showDelDialog = this.showDelDialog.bind(this);
-    this.handleEditCancel = this.handleEditCancel.bind(this);
-    this.handleEditConfirm = this.handleEditConfirm.bind(this);
-    this.handleFormChange = this.handleFormChange.bind(this);
-    this.handleReset = this.handleReset.bind(this);
   }
-  componentDidMount() {
+  componentWillMount() {
     // 从books.json文件中获取书籍的数据
     axios
       .get("http://localhost:3000/books.json")
@@ -35,30 +29,26 @@ class Container extends React.Component {
   }
 
   // 显示编辑对话框
-  showEditDialog(id) {
-    const index = this.state.data.findIndex(v => {
+  showEditDialog = id => {
+    const arr = this.state.data.filter(v => {
       return v.id === id;
     });
     this.setState({
       editDialogVisible: true,
-      index: index,
-      form: { ...this.state.data[index] }
+      form: { ...arr[0] }
     });
-  }
+  };
   // 显示删除消息弹框
-  showDelDialog(id) {
+  showDelDialog = id => {
     //
     MessageBox.confirm("此操作将永久删除该文件, 是否继续?", "提示", {
       type: "warning"
     })
       .then(() => {
         // 点击确认删除后，查找编号所对应的索引
-        const delId = this.state.data.findIndex(v => {
-          return v.id === id;
+        const arr = this.state.data.filter(v => {
+          return v.id !== id;
         });
-        let arr = this.state.data;
-        // 删除后重新赋值
-        arr.splice(delId, 1);
         this.setState({
           data: [...arr]
         });
@@ -73,28 +63,31 @@ class Container extends React.Component {
           message: "已取消删除"
         });
       });
-  }
+  };
   // 取消编辑操作
-  handleEditCancel() {
+  handleEditCancel = () => {
     this.setState({
       editDialogVisible: false
     });
-  }
-  handleFormChange(key, value) {
-    const form = this.state.form;
+  };
+  //处理表单输入框变化
+  handleFormChange = (key, value) => {
+    let { form } = this.state;
     form[key] = value;
     this.setState({
       form: form
     });
-  }
+  };
   // 修改表单确认操作
-  handleEditConfirm(flag) {
+  handleEditConfirm = flag => {
     if (flag) {
-      const index = this.state.data.findIndex(v => {
-        return v.id === this.state.form.id;
+      const { form } = this.state;
+      const arr = this.state.data.map(v => {
+        if (v.id === form.id) {
+          v = form;
+        }
+        return v;
       });
-      const arr = this.state.data;
-      arr[index] = this.state.form;
       this.setState({
         data: [...arr],
         editDialogVisible: false
@@ -102,16 +95,17 @@ class Container extends React.Component {
     } else {
       return false;
     }
-  }
-  handleReset() {
-    let formObj = this.state.form;
-    formObj.name = "";
-    formObj.author = "";
-    formObj.pubDate = "";
+  };
+  //处理表单重置 将除了编号之外的数据全部清空
+  handleReset = () => {
+    let { form } = this.state;
+    form.name = "";
+    form.author = "";
+    form.pubDate = "";
     this.setState({
-      form: formObj
+      form: form
     });
-  }
+  };
   render() {
     return (
       <TableCom
