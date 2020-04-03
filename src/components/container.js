@@ -70,9 +70,9 @@ class Container extends React.Component {
     });
   };
   //处理表单输入框变化
-  handleFormChange = (key, value) => {
+  handleFormChange = (key, e) => {
     let { form } = this.state;
-    form[key] = value;
+    form[key] = e.target.value;
     this.setState({
       form: form
     });
