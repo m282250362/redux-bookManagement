@@ -10,8 +10,7 @@ class Container extends React.Component {
     this.state = {
       data: [],
       editDialogVisible: false,
-      form: {},
-      index: -1
+      form: {}
     };
   }
   componentWillMount() {
