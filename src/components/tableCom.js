@@ -1,30 +1,30 @@
 import React from "react";
 import { Button, Table } from "element-react";
-import EditDialog from "./editDialog";
+
 function TableCom(props) {
   const columns = [
     {
       label: "编号",
       prop: "id",
-      width: 180
+      width: 180,
     },
     {
       label: "书名",
       prop: "name",
-      width: 180
+      width: 180,
     },
     {
       label: "作者",
-      prop: "author"
+      prop: "author",
     },
     {
       label: "出版日期",
-      prop: "pubDate"
+      prop: "pubDate",
     },
     {
       label: "操作",
       prop: "id",
-      render: function(data) {
+      render: function (data) {
         return (
           <span>
             <Button
@@ -44,27 +44,17 @@ function TableCom(props) {
             </Button>
           </span>
         );
-      }
-    }
+      },
+    },
   ];
 
   return (
-    <div>
-      <Table
-        style={{ width: "100%" }}
-        columns={columns}
-        data={props.data}
-        border={true}
-      />
-      <EditDialog
-        dialogVisible={props.editDialogVisible}
-        handleCancel={props.handleEditCancel}
-        handleEditConfirm={props.handleEditConfirm}
-        onFormChange={props.handleFormChange}
-        form={props.form}
-        handleReset={props.handleReset}
-      />
-    </div>
+    <Table
+      style={{ width: "100%" }}
+      columns={columns}
+      data={props.data}
+      border={true}
+    />
   );
 }
 export default TableCom;
