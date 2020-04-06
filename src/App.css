@@ -17,3 +17,11 @@ body {
 .el-dialog--tiny {
   min-width: 50%;
 }
+.link {
+  margin: 0 auto;
+  width: 300px;
+}
+.link a {
+  color: #333;
+  padding: 10px;
+}
