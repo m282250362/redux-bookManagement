@@ -9,6 +9,7 @@
     "axios": "^0.19.2",
     "element-react": "^1.4.34",
     "element-theme-default": "^1.4.13",
+    "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-hot-loader": "^4.12.20",

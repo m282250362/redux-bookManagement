@@ -3,10 +3,10 @@ export const getData = () => {
     type: "GET_DATA",
   };
 };
-export const successData = (list) => {
+export const successData = (data) => {
   return {
     type: "SUCCESS_DATA",
-    data: [...list],
+    data,
     status: 1,
   };
 };
@@ -16,22 +16,21 @@ export const errorData = () => {
     status: 2,
   };
 };
-export const deleteData = (list) => {
+export const deleteData = (id) => {
   return {
     type: "DELETE_DATA",
-    data: list,
+    id,
   };
 };
-export const setForm = (list) => {
+export const setForm = () => {
   return {
     type: "SET_FORM",
-    form: list,
   };
 };
-export const showDialog = (list) => {
+export const showDialog = (id) => {
   return {
     type: "SHOW_DIALOG",
-    form: list,
+    id,
   };
 };
 export const hiddenDialog = () => {
@@ -39,15 +38,15 @@ export const hiddenDialog = () => {
     type: "HIDDEN_DIALOG",
   };
 };
-export const changeForm = (list) => {
+export const changeForm = (key, e) => {
   return {
-    type: "SET_FORM",
-    form: list,
+    type: "CHANGE_FORM",
+    key,
+    e,
   };
 };
-export const editConfirm = (list) => {
+export const editConfirm = () => {
   return {
     type: "EDIT_CONFIRM",
-    data: list,
   };
 };
