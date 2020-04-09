@@ -1,4 +1,9 @@
-export const reducer = (state, action) => {
+const initState = {
+  data: [],
+  editDialogVisible: false,
+  form: {},
+};
+export const reducer = (state = initState, action) => {
   switch (action.type) {
     case "GET_DATA":
       return state;

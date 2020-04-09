@@ -4,7 +4,7 @@ import TableCom from "./tableCom";
 import DialogContainer from "./dialogContainer";
 import "element-theme-default";
 import { connect } from "react-redux";
-import action from "../action/index";
+import { getData, deleteData, setForm, showDialog } from "../action/index";
 // 主容器
 class Container extends React.Component {
   constructor(props) {
@@ -65,27 +65,16 @@ class Container extends React.Component {
 const mapDispatchToProps = (dispatch) => {
   return {
     getList: () => {
-      dispatch({
-        type: action.getData,
-      });
+      dispatch(getData());
     },
     delList: (list) => {
-      dispatch({
-        type: action.deleteData,
-        data: list,
-      });
+      dispatch(deleteData(list));
     },
     setForm: (list) => {
-      dispatch({
-        type: action.setForm,
-        form: list,
-      });
+      dispatch(setForm(list));
     },
     showDialog: (data) => {
-      dispatch({
-        type: action.showDialog,
-        form: data,
-      });
+      dispatch(showDialog(data));
     },
   };
 };

@@ -1,7 +1,7 @@
 import React from "react";
 import EditDialog from "./editDialog";
 import { connect } from "react-redux";
-import action from "../action";
+import { hiddenDialog, changeForm, editConfirm } from "../action";
 class DialogContainer extends React.Component {
   handleCancel = () => {
     this.props.hiddenDialog();
@@ -73,21 +73,13 @@ const mapSateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     hiddenDialog: () => {
-      dispatch({
-        type: action.hiddenDialog,
-      });
+      dispatch(hiddenDialog());
     },
     changeForm: (list) => {
-      dispatch({
-        type: action.setForm,
-        form: list,
-      });
+      dispatch(changeForm(list));
     },
     editConfirm: (list) => {
-      dispatch({
-        type: action.editConfirm,
-        data: list,
-      });
+      dispatch(editConfirm(list));
     },
   };
 };
