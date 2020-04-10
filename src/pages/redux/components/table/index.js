@@ -1,11 +1,13 @@
 import React from "react";
 import { Button, Table } from "element-react";
 import { connect } from "react-redux";
-import { deleteData, showDialog } from "../action/tableAction";
+import { bindActionCreators } from "redux";
+import { deleteData, showDialog } from "./action";
 
 class TableCom extends React.Component {
   render() {
-    const { showDialog, delList } = this.props;
+    const { data, showDialog, deleteData } = this.props;
+    const arr = [...data];
     const columns = [
       {
         label: "编号",
@@ -35,14 +37,14 @@ class TableCom extends React.Component {
                 plain={true}
                 type="info"
                 size="small"
-                onClick={showDialog.bind(this, data["id"])}
+                onClick={showDialog.bind(this, data["id"], arr)}
               >
                 编辑
               </Button>
               <Button
                 type="danger"
                 size="small"
-                onClick={delList.bind(this, data["id"])}
+                onClick={deleteData.bind(this, data["id"], arr)}
               >
                 删除
               </Button>
@@ -55,7 +57,7 @@ class TableCom extends React.Component {
       <Table
         style={{ width: "100%" }}
         columns={columns}
-        data={this.props.data}
+        data={data}
         border={true}
       />
     );
@@ -63,19 +65,11 @@ class TableCom extends React.Component {
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    delList: (id) => {
-      dispatch(deleteData(id));
-    },
-    showDialog: (id) => {
-      dispatch(showDialog(id));
-    },
+    deleteData: bindActionCreators(deleteData, dispatch),
+    showDialog: bindActionCreators(showDialog, dispatch),
   };
 };
-const mapStateToProps = (state) => {
-  return {
-    data: state.data,
-    editDialogVisible: state.editDialogVisible,
-    form: state.form,
-  };
-};
-export default connect(mapStateToProps, mapDispatchToProps)(TableCom);
+export default connect(
+  (state) => state.Container,
+  mapDispatchToProps
+)(TableCom);

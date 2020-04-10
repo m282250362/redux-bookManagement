@@ -1,16 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
-import {
-  hiddenDialog,
-  changeForm,
-  editConfirm,
-  setForm,
-} from "../action/dialogAction";
+import { hiddenDialog, changeForm, editConfirm, setForm } from "./action";
 import { Button, Dialog } from "element-react";
+import { bindActionCreators } from "redux";
 class EditDialog extends React.Component {
   render() {
     const {
       form: { id, name, author, pubDate },
+      form,
+      data,
       editDialogVisible,
       hiddenDialog,
       changeForm,
@@ -47,7 +45,7 @@ class EditDialog extends React.Component {
                 <input
                   type="text"
                   className="el-input__inner"
-                  onChange={changeForm.bind(this, "name")}
+                  onChange={changeForm.bind(this, "name", form)}
                   value={name || ""}
                 />
               </div>
@@ -60,7 +58,7 @@ class EditDialog extends React.Component {
                 <input
                   type="text"
                   className="el-input__inner"
-                  onChange={changeForm.bind(this, "author")}
+                  onChange={changeForm.bind(this, "author", form)}
                   value={author || ""}
                 />
               </div>
@@ -73,7 +71,7 @@ class EditDialog extends React.Component {
                 <input
                   type="text"
                   className="el-input__inner"
-                  onChange={changeForm.bind(this, "pubDate")}
+                  onChange={changeForm.bind(this, "pubDate", form)}
                   value={pubDate || ""}
                 />
               </div>
@@ -81,9 +79,9 @@ class EditDialog extends React.Component {
           </div>
         </Dialog.Body>
         <Dialog.Footer>
-          <Button onClick={setForm}>重置</Button>
+          <Button onClick={setForm.bind(this, form)}>重置</Button>
           <Button onClick={hiddenDialog}>取消</Button>
-          <Button type="primary" onClick={editConfirm}>
+          <Button type="primary" onClick={editConfirm.bind(this, form, data)}>
             确定
           </Button>
         </Dialog.Footer>
@@ -91,27 +89,15 @@ class EditDialog extends React.Component {
     );
   }
 }
-const mapSateToProps = (state) => {
-  return {
-    data: state.data,
-    form: state.form,
-    editDialogVisible: state.editDialogVisible,
-  };
-};
 const mapDispatchToProps = (dispatch) => {
   return {
-    hiddenDialog: () => {
-      dispatch(hiddenDialog());
-    },
-    changeForm: (key, e) => {
-      dispatch(changeForm(key, e));
-    },
-    setForm: () => {
-      dispatch(setForm());
-    },
-    editConfirm: () => {
-      dispatch(editConfirm());
-    },
+    hiddenDialog: bindActionCreators(hiddenDialog, dispatch),
+    changeForm: bindActionCreators(changeForm, dispatch),
+    setForm: bindActionCreators(setForm, dispatch),
+    editConfirm: bindActionCreators(editConfirm, dispatch),
   };
 };
-export default connect(mapSateToProps, mapDispatchToProps)(EditDialog);
+export default connect(
+  (state) => state.Container,
+  mapDispatchToProps
+)(EditDialog);
