@@ -1,6 +1,6 @@
-import { takeEvery, call, put, all } from "redux-saga/effects";
+import { takeEvery, call, put } from "redux-saga/effects";
 import axios from "axios";
-import { successData, errorData, s } from "../action";
+import { successData, errorData } from "../action";
 export default function* getData() {
   yield takeEvery("GET_DATA", function* () {
     // 从books.json文件中获取书籍的数据

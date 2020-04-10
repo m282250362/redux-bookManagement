@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Table } from "element-react";
 import { connect } from "react-redux";
-import { deleteData, showDialog } from "../action/index";
+import { deleteData, showDialog } from "../action/tableAction";
 
 class TableCom extends React.Component {
   render() {

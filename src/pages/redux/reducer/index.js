@@ -1,7 +1,12 @@
 const initState = {
   data: [],
   editDialogVisible: false,
-  form: {},
+  form: {
+    id: "",
+    name: "",
+    author: "",
+    pubDate: "",
+  },
 };
 export const reducer = (state = initState, action) => {
   switch (action.type) {
@@ -35,7 +40,6 @@ export const reducer = (state = initState, action) => {
         form: { ...arr[0] },
       });
     }
-
     //隐藏对话框
     case "HIDDEN_DIALOG":
       return Object.assign({}, state, {
@@ -66,7 +70,6 @@ export const reducer = (state = initState, action) => {
         editDialogVisible: false,
       });
     }
-
     default:
       return state;
   }

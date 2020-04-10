@@ -1,15 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import { hiddenDialog, changeForm, editConfirm, setForm } from "../action";
+import {
+  hiddenDialog,
+  changeForm,
+  editConfirm,
+  setForm,
+} from "../action/dialogAction";
 import { Button, Dialog } from "element-react";
 class EditDialog extends React.Component {
-  // 表单验证规则
-  static propsTypes = {
-    name: PropTypes.string.isRequired,
-    author: PropTypes.string.isRequired,
-    pubDate: PropTypes.string.isRequired,
-  };
   render() {
     const {
       form: { id, name, author, pubDate },
