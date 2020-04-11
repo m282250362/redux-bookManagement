@@ -6,8 +6,8 @@ import { deleteData, showDialog } from "./action";
 
 class TableCom extends React.Component {
   render() {
-    const { data, showDialog, deleteData } = this.props;
-    const arr = [...data];
+    let { data, showDialog, deleteData } = this.props;
+    let arr = [...data];
     const columns = [
       {
         label: "编号",
@@ -69,7 +69,6 @@ const mapDispatchToProps = (dispatch) => {
     showDialog: bindActionCreators(showDialog, dispatch),
   };
 };
-export default connect(
-  (state) => state.Container,
-  mapDispatchToProps
-)(TableCom);
+export default connect((state) => {
+  return state.Container;
+}, mapDispatchToProps)(TableCom);

@@ -1,18 +1,14 @@
 import { initState } from "../../reducer/index";
-import { GET_DATA, SUCCESS_DATA, ERROR_DATA } from "./action";
+import { SUCCESS_DATA, ERROR_DATA } from "./action";
+import { DELETE_DATA, SHOW_DIALOG } from "../../components/table/action";
 import {
   HIDDEN_DIALOG,
   CHANGE_FORM,
   SET_FORM,
   EDIT_CONFIRM,
-} from "../../components/dialog/action.js";
-import { DELETE_DATA, SHOW_DIALOG } from "../../components/table/action";
+} from "../../components/dialog/action";
 export default function index(state = initState, action) {
   switch (action.type) {
-    case GET_DATA:
-      console.log(GET_DATA);
-
-      return state;
     case SUCCESS_DATA:
       initState.data = action.data;
       return Object.assign({}, state, { data: [...action.data] });
@@ -20,7 +16,6 @@ export default function index(state = initState, action) {
       return state;
     // 删除数据
     case DELETE_DATA: {
-      console.log(initState);
       return Object.assign({}, state, {
         data: [...action.data],
       });

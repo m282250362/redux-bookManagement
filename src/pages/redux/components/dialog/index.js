@@ -5,7 +5,7 @@ import { Button, Dialog } from "element-react";
 import { bindActionCreators } from "redux";
 class EditDialog extends React.Component {
   render() {
-    const {
+    let {
       form: { id, name, author, pubDate },
       form,
       data,
@@ -97,7 +97,6 @@ const mapDispatchToProps = (dispatch) => {
     editConfirm: bindActionCreators(editConfirm, dispatch),
   };
 };
-export default connect(
-  (state) => state.Container,
-  mapDispatchToProps
-)(EditDialog);
+export default connect((state) => {
+  return state.Container;
+}, mapDispatchToProps)(EditDialog);
